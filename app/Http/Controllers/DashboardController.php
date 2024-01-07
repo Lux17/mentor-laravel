@@ -7,20 +7,25 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Session;
 use App\Models\Mobil;
+use App\Http\Controllers\Dashboard;
 
 
 
 class Dashboardcontroller extends Controller
 {
 
+    
+    
     public function index()
     {
+       
         $mobil = DB::table('mobil')->get();
         return view('admin.dashboard', ['mobil' => $mobil]);
     }
 
     public function simpan(Request $request)
     {
+        $request->session()->regenerate();
         DB::table('mobil')->insert([
             'id' => $request->id,
             'nama' => $request->nama
@@ -28,27 +33,23 @@ class Dashboardcontroller extends Controller
         return view('admin.dashboard');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
-        $request->validate([
-            'namaMahasiswa'=>'required',
-            'nimMahasiswa' => 'required',
 
-            //'gambarMahasiswa' => 'required|image|mimes:jpg,png,jpeg'
+      $preferences = DB::table('mobil')->where('id', $id)
+        ->update([
+        'id'=> request()->id,
+        'nama'=> request()->nama,
         ]);
-        $mobil = Mobil::find($id);
-        $mobil->nama = $request->get('nama');
-        $mobil->save();
-        return redirect()->route('admin.dashboard')
-                         ->with('success', 'Data berhasil diupdate');
+
+      return redirect()->route('dashboard');
+    
     }
 
-
-    public function destroy($id)
+    public function hapus($id)
     {
-        $mobil = Mobil::find($id);
-        $mobil->delete();
-        return redirect()->route('admin.dashboard')
+        $mobil = DB::table('mobil')->where('id', $id)->delete();
+        return redirect()->route('dashboard')
                          ->with('success', 'Data Mobil berhasil dihapus');
     }
 

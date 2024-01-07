@@ -26,11 +26,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index')->name('dashboard')->middleware('auth');
 Route::get('actionlogout', 'App\Http\Controllers\LoginController@actionlogout')->name('actionlogout')->middleware('auth');
-Route::post('/simpan', 'App\Http\Controllers\DashboardController@simpan')->name('simpan')->middleware('auth');
+
 });
 
 
-
+Route::post('simpan', 'App\Http\Controllers\DashboardController@simpan')->name('simpan');
+Route::put('/update/{id}', 'App\Http\Controllers\DashboardController@update')->name('update');
+Route::delete('/hapus/{id}', 'App\Http\Controllers\DashboardController@hapus')->name('hapus');
 //login
 Route::get('/login', 'App\Http\Controllers\LoginController@login')->name('login');
 Route::post('dashboard', 'App\Http\Controllers\LoginController@actionlogin')->name('actionlogin');

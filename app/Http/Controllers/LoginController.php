@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Session;
 
 class LoginController extends Controller
@@ -25,8 +26,11 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             // Validasi berhasil, cek apakah pengguna memiliki peran admin
             if (Auth::user()->rolename === 'admin') {
+                $request->session()->regenerate();
+                $mobil = DB::table('mobil')->get();
+                return view('admin.dashboard', ['mobil' => $mobil]);
                 // Jika pengguna adalah admin, arahkan ke area admin
-                return view('admin.dashboard');
+                // return view('admin.dashboard');
             } else {
                 // Jika pengguna bukan admin, logout dan arahkan ke halaman lain
                 return view('user.dashboard');
@@ -35,6 +39,15 @@ class LoginController extends Controller
             // Jika validasi gagal, kembalikan ke halaman login dengan pesan error
             return redirect()->back()->withInput($request->only('username'))->with('error', 'Login gagal! Cek kembali username dan password Anda.');
         }
+    }
+
+    public function simpan(Request $request)
+    {
+        DB::table('mobil')->insert([
+            'id' => $request->id,
+            'nama' => $request->nama
+        ]);
+        return view('admin/dashboard');
     }
 
 
