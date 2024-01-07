@@ -18,39 +18,77 @@ class Dashboardcontroller extends Controller
     
     public function index()
     {
-       
+        session()->start();
         $mobil = DB::table('mobil')->get();
         return view('admin.dashboard', ['mobil' => $mobil]);
     }
 
     public function simpan(Request $request)
     {
-        $request->session()->regenerate();
+
+        session()->start();
+        if($request->hasFile('image')) { 
+        $imageName = time().'.'.$request->image->extension();
+        $uploadedImage = $request->image->move(public_path('images'), $imageName);
+        $imagePath = 'images/' . $imageName;
+        
         DB::table('mobil')->insert([
             'id' => $request->id,
-            'nama' => $request->nama
+            'nama' => $request->nama,
+            'image' => $request->image = $imagePath
         ]);
-        return view('admin.dashboard');
+        $mobil = DB::table('mobil')->get();
+        return view('admin.dashboard', ['mobil' => $mobil]);
+        }else{
+            DB::table('mobil')->insert([
+                'id' => $request->id,
+                'nama' => $request->nama,
+
+            ]);
+            $mobil = DB::table('mobil')->get();
+            return view('admin.dashboard', ['mobil' => $mobil]);
+        }
     }
 
     public function update(Request $request,$id)
     {
+      session()->start();
 
-      $preferences = DB::table('mobil')->where('id', $id)
-        ->update([
-        'id'=> request()->id,
-        'nama'=> request()->nama,
-        ]);
+      if($request->hasFile('image')) { 
+        $imageName = time().'.'.$request->image->extension();
+        $uploadedImage = $request->image->move(public_path('images'), $imageName);
+        $imagePath = 'images/' . $imageName;
+        $preferences = DB::table('mobil')->where('id', $id)
+          ->update([
+          'id'=> request()->id,
+          'nama'=> request()->nama,
+          'image'=> request()->image = $imagePath
+          ]);
+  
+          $mobil = DB::table('mobil')->get();
+          return view('admin.dashboard', ['mobil' => $mobil]);
+      }else {
+        $preferences = DB::table('mobil')->where('id', $id)
+      ->update([
+      'id'=> request()->id,
+      'nama'=> request()->nama
+      ]);
 
-      return redirect()->route('dashboard');
-    
+      $mobil = DB::table('mobil')->get();
+      return view('admin.dashboard', ['mobil' => $mobil]);
+      }
+      
     }
+
 
     public function hapus($id)
     {
+        session()->start();
         $mobil = DB::table('mobil')->where('id', $id)->delete();
-        return redirect()->route('dashboard')
-                         ->with('success', 'Data Mobil berhasil dihapus');
+        $mobil = DB::table('mobil')->get();
+        session()->flash('success', 'Your record has been deleted ☑️');
+        return view('admin.dashboard', ['mobil' => $mobil]);
+        
     }
 
 }

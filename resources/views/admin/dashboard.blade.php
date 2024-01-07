@@ -9,13 +9,16 @@
 </head>
 <body>
   Test
+  @auth
   <h4>Selamat Datang <b>{{Auth::user()->name}}</b>, Anda Login sebagai <b>{{Auth::user()->rolename}}</b>.</h4>
+  @endauth
   <br>
 
   <form action="{{ route('simpan') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <input type="text" name="id">
     <input type="text" name="nama">
+    <input type="file" name="image">
     <button type="submit">Unggah</button>
 </form>
 
@@ -26,6 +29,7 @@
               <th>No</th>
               <th>id</th>
               <th>nama</th>
+              <th>gambar</th>
               <th>action</th>
             </tr>
   </thead>
@@ -37,6 +41,7 @@
               <td>{{$i++}}</td>
                 <td>{{$mobils->id}}</td>
                 <td>{{$mobils->nama}}</td>
+                <td><img src="{{ asset($mobils->image) }}" class="img-thumbnail" style="width:200px" /></td>
                 <td>
                 <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal{{$mobils->id}}">
                 Edit
@@ -62,11 +67,12 @@
       </div>
       <div class="modal-body">
 
-      <form action="{{ route('update', $mobils->id) }}" method="post">
+      <form action="{{ route('update', $mobils->id) }}" method="post" enctype="multipart/form-data">
       @csrf  
       @method('PUT')
       <input type="text" name="id" value="{{$mobils->id}}">
       <input type="text" name="nama" value="{{$mobils->nama}}">
+      <input type="file" name="image" value="{{asset($mobils->image)}}">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -84,6 +90,8 @@
 </td>
 </tr>
 </table>
+
+<a href="{{ route('importexport') }}"> Ke halaman 2</a>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>  
   <!-- <a href="{{route('actionlogout') }}">logout</a> -->
 </body>

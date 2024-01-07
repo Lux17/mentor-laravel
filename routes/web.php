@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers;
 use App\Http\Controllers\BrandController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,5 +39,8 @@ Route::delete('/hapus/{id}', 'App\Http\Controllers\DashboardController@hapus')->
 Route::get('/login', 'App\Http\Controllers\LoginController@login')->name('login');
 Route::post('dashboard', 'App\Http\Controllers\LoginController@actionlogin')->name('actionlogin');
 
+Route::get('/importexport', 'App\Http\Controllers\ImportExportController@importExport')->name('importexport');
+Route::post('/import', 'App\Http\Controllers\ImportExportController@import')->name('import');
+Route::get('/export', 'App\Http\Controllers\ImportExportController@export')->name('export');
 
 

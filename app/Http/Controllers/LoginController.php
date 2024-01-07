@@ -26,7 +26,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             // Validasi berhasil, cek apakah pengguna memiliki peran admin
             if (Auth::user()->rolename === 'admin') {
-                $request->session()->regenerate();
+                session()->start();
                 $mobil = DB::table('mobil')->get();
                 return view('admin.dashboard', ['mobil' => $mobil]);
                 // Jika pengguna adalah admin, arahkan ke area admin
