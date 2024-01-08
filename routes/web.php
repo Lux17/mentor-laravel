@@ -43,4 +43,11 @@ Route::get('/importexport', 'App\Http\Controllers\ImportExportController@importE
 Route::post('/import', 'App\Http\Controllers\ImportExportController@import')->name('import');
 Route::get('/export', 'App\Http\Controllers\ImportExportController@export')->name('export');
 
+//admin
+Route::get('admin', 'App\Http\Controllers\AdminController@index')->name('admin');
 
+//logbook
+Route::get('logbook', 'App\Http\Controllers\LogbookController@index')->name('logbook');
+Route::post('simpan', 'App\Http\Controllers\LogbookController@simpan')->name('simpan');
+Route::put('/update/{id}', 'App\Http\Controllers\LogbookController@update')->name('update');
+Route::delete('/hapus/{id}', 'App\Http\Controllers\LogbookController@hapus')->name('hapus');
