@@ -51,3 +51,24 @@ Route::get('logbook', 'App\Http\Controllers\LogbookController@index')->name('log
 Route::post('simpan', 'App\Http\Controllers\LogbookController@simpan')->name('simpan');
 Route::put('/update/{id}', 'App\Http\Controllers\LogbookController@update')->name('update');
 Route::delete('/hapus/{id}', 'App\Http\Controllers\LogbookController@hapus')->name('hapus');
+
+
+//learning PATH
+Route::get('learning', 'App\Http\Controllers\LearningController@index')->name('learning');
+Route::post('simpan', 'App\Http\Controllers\LearningController@simpan')->name('simpan');
+Route::put('/update/{id}', 'App\Http\Controllers\LearningController@update')->name('update');
+Route::delete('/hapus/{id}', 'App\Http\Controllers\LearningController@hapus')->name('hapus');
+
+
+//Tugas
+Route::get('tugas', 'App\Http\Controllers\TugasController@index')->name('tugas');
+Route::post('simpan', 'App\Http\Controllers\TugasController@simpan')->name('simpan');
+Route::put('/update/{id}', 'App\Http\Controllers\TugasController@update')->name('update');
+Route::delete('/hapus/{id}', 'App\Http\Controllers\TugasController@hapus')->name('hapus');
+
+
+//Akun
+Route::get('akun', 'App\Http\Controllers\AkunController@index')->name('akun');
+Route::post('simpan', 'App\Http\Controllers\AkunController@simpan')->name('simpan');
+Route::put('/update/{id}', 'App\Http\Controllers\AkunController@update')->name('update');
+Route::delete('/hapus/{id}', 'App\Http\Controllers\AkunController@hapus')->name('hapus');

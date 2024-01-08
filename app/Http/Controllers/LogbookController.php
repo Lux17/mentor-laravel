@@ -36,6 +36,7 @@ class LogbookController extends Controller
 
             ]);
             $logbook = DB::table('logbook')->get();
+            session()->flash('success', 'Data berhasil disimpan.');
             return view('admin.logbook', ['logbook' => $logbook]);
     }
     
@@ -50,7 +51,7 @@ class LogbookController extends Controller
       'emosi'=> request()->emosi,
       'id_users'=> request()->id_users
       ]);
-
+      session()->flash('success', 'Data berhasil diupdate.');
       $logbook= DB::table('logbook')->get();
       return view('admin.logbook', ['logbook' => $logbook]);
     }
@@ -64,7 +65,7 @@ class LogbookController extends Controller
         session()->start();
         $logbook = DB::table('logbook')->where('id_log', $id_log)->delete();
         $logbook = DB::table('logbook')->get();
-        session()->flash('success', 'Your record has been deleted ☑️');
+        session()->flash('success', 'Data berhasil di hapus ☑️');
         return view('admin.logbook', ['logbook' => $logbook]);
         
     }

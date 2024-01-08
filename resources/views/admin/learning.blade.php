@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Infinite Learning - Logbook</title>
+  <title>Infinite Learning - Learning Path</title>
   <!-- plugins:css -->
 
   @include('includes.admin.styles')
@@ -44,8 +44,8 @@
               <div class="d-flex justify-content-between flex-wrap">
                 <div class="d-flex align-items-end flex-wrap">
                   <div class="me-md-3 me-xl-5">
-                    <h2>Logbook</h2>
-                    <p class="mb-md-0">Laporan Kegiatan harian mentee infinite learning.</p>
+                    <h2>Learning Path</h2>
+                    <p class="mb-md-0">Jadwal kegiatan belajar infinite learning.</p>
                   </div>
 
                 </div>
@@ -73,22 +73,16 @@
                   <form action="{{ route('simpan') }}" method="POST" >
                     @csrf
                     <div class="mb-3" class="forms-group">
-                    <label for="aktifitas" class="form-label">Aktifitas</label>
-                    <textarea type="text" class="form-control"  name="aktifitas" placeholder="Masukan Aktifitas" required="" ></textarea>
+                    <label for="kegiatan" class="form-label">Kegiatan</label>
+                    <textarea type="text" class="form-control"  name="kegiatan" placeholder="Masukan Kegiatan" required="" ></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="jenis" class="form-label d"> Reaksi :</label>
-                        <select name="emosi" id="jenis" class="form-control" required="">
-                        <option selected >Pilih...</option>
-                        <option value="Senang Sekali">Senang Sekali</option>
-                        <option  value="Biasa aja">Biasa aja</option>
-                        <option  value="Sedih">Sedih</option>
-                        <option  value="Marah">Marah</option>
-                        </select>
-                  </div>
+                    <label for="tgl_mulai" class="form-label">Mulai</label>
+                    <input type="date" class="form-control"  name="tgl_mulai"  required="">
+                    </div>
                     <div class="mb-3">
-                    <label for="id_users" class="form-label">Id User</label>
-                    <input type="text" class="form-control"  name="id_users" placeholder="Masukan Id Mahasiswa" required="">
+                    <label for="tgl_selesai" class="form-label">Selesai</label>
+                    <input type="date" class="form-control"  name="tgl_selesai"  required="">
                     </div>
                     <div class="col col-lg-2">
                     <button class="btn btn-primary form-control" type="submit">Simpan</button>
@@ -108,26 +102,26 @@
               <th width="100">No</th>
               <th width="100">id</th>
               <th>Aktivitas</th>
-              <th width="100">Reaksi</th>
-              <th width="100">Mentee</th>
-              <th width="140">Aksi</th>
+              <th width="100">Kegiatan</th>
+              <th width="100">Mulai</th>
+              <th width="140">Selesai</th>
             </tr>
   </thead>
 
 
             <tbody>
-  @foreach ($logbook as $log) 
+  @foreach ($learning as $lern) 
             <tr>
               <td>{{$i++}}</td>
-                <td>{{$log->id_log}}</td>
-                <td>{{$log->aktifitas}}</td>
-                <td>{{$log->emosi}}</td>
-                <td>{{$log->id_users}}</td>
+                <td>{{$lern->id_lern}}</td>
+                <td>{{$lern->kegiatan}}</td>
+                <td>{{$lern->tgl_mulai}}</td>
+                <td>{{$lern->tgl_selesai}}</td>
                 <td>
-                <button type="button" class="btn btn-primary btn-sm"  data-bs-toggle="modal" data-bs-target="#exampleModal{{$log->id_log}}">
+                <button type="button" class="btn btn-primary btn-sm"  data-bs-toggle="modal" data-bs-target="#exampleModal{{$lern->id_lern}}">
                 <i class="mdi mdi-table-edit"></i>
                 </button>
-                            <form action="{{ route('hapus', $log->id_log) }}" method="POST" style="display: inline-block;">
+                            <form action="{{ route('hapus', $lern->id_lern) }}" method="POST" style="display: inline-block;">
                             @csrf  
                             @method('delete')
                                 <button type="submit" class="btn btn-danger btn-sm">
@@ -143,38 +137,32 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal{{$log->id_log}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal{{$lern->id_lern}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Logbook</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Learning Path</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
 
-          <form action="{{ route('update', $log->id_log) }}" method="post">
+          <form action="{{ route('update', $lern->id_lern) }}" method="post">
           @csrf  
           @method('PUT')
           <div class="mb-3">
-          <input   type="hidden" class="form-control" name="id_log"  value="{{$log->id_log}}" >
-          <label for="aktifitas" class="form-label">Aktifitas</label>
-          <textarea type="text" class="form-control" value="{{$log->aktifitas}}" name="aktifitas" placeholder="Masukan Aktifitas" >{{$log->aktifitas}}</textarea>
+          <input   type="hidden" class="form-control" name="id_lern"  value="{{$lern->id_lern}}" >
+          <label for="kegiatan" class="form-label">Kegiatan</label>
+          <textarea type="text" class="form-control"  name="kegiatan" value="{{$lern->kegiatan}}" placeholder="Masukan Kegiatan" required="" >{{$lern->kegiatan}}</textarea>
           </div>
           <div class="mb-3">
-                <label for="jenis" class="form-label d"> Reaksi :</label>
-                <select name="emosi" id="jenis" class="form-control" >
-                <option selected value="{{$log->emosi}}">Pilih...</option>
-                <option value="Senang Sekali">Senang Sekali</option>
-                <option  value="Biasa aja">Biasa aja</option>
-                <option  value="Sedih">Sedih</option>
-                <option  value="Marah">Marah</option>
-                </select>
+          <label for="tgl_mulai" class="form-label">Mulai</label>
+          <input type="date" class="form-control"  name="tgl_mulai" value="{{$lern->tgl_mulai}}" required="">
           </div>
           <div class="mb-3">
-          <label for="id_users" class="form-label">Id User</label>
-          <input type="text" class="form-control" value="{{$log->id_users}}" name="id_users" placeholder="Masukan Id Mahasiswa">
+          <label for="tgl_selesai" class="form-label">Selesai</label>
+          <input type="date" class="form-control"  name="tgl_selesai"  value="{{$lern->tgl_selesai}}" required="">
           </div>
-
+                   
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>

@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Infinite Learning - Logbook</title>
+  <title>Infinite Learning - Tugas</title>
   <!-- plugins:css -->
 
   @include('includes.admin.styles')
@@ -44,8 +44,8 @@
               <div class="d-flex justify-content-between flex-wrap">
                 <div class="d-flex align-items-end flex-wrap">
                   <div class="me-md-3 me-xl-5">
-                    <h2>Logbook</h2>
-                    <p class="mb-md-0">Laporan Kegiatan harian mentee infinite learning.</p>
+                    <h2>Tugas</h2>
+                    <p class="mb-md-0">Tugas Mentee infinite learning.</p>
                   </div>
 
                 </div>
@@ -70,25 +70,23 @@
                       {{ session('success') }}
                   </div>
                   @endif
-                  <form action="{{ route('simpan') }}" method="POST" >
+                  <form action="{{ route('simpan') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3" class="forms-group">
-                    <label for="aktifitas" class="form-label">Aktifitas</label>
-                    <textarea type="text" class="form-control"  name="aktifitas" placeholder="Masukan Aktifitas" required="" ></textarea>
+                    <label for="images" class="form-label">Foto</label>
+                    <input type="file" class="form-control"  name="images" required="">
                     </div>
                     <div class="mb-3">
-                        <label for="jenis" class="form-label d"> Reaksi :</label>
-                        <select name="emosi" id="jenis" class="form-control" required="">
-                        <option selected >Pilih...</option>
-                        <option value="Senang Sekali">Senang Sekali</option>
-                        <option  value="Biasa aja">Biasa aja</option>
-                        <option  value="Sedih">Sedih</option>
-                        <option  value="Marah">Marah</option>
-                        </select>
-                  </div>
+                    <label for="deskripsi" class="form-label">Deskripsi</label>
+                    <textarea type="text" class="form-control"  name="deskripsi"  required=""> </textarea>
+                    </div>
                     <div class="mb-3">
-                    <label for="id_users" class="form-label">Id User</label>
-                    <input type="text" class="form-control"  name="id_users" placeholder="Masukan Id Mahasiswa" required="">
+                    <label for="tgl" class="form-label">Tanggal</label>
+                    <input type="date" class="form-control"  name="tgl" value="{{ date('Y-m-d') }}" >
+                    </div>
+                    <div class="mb-3">
+                    <label for="tgl" class="form-label">ID User</label>
+                    <input type="text" class="form-control"  name="id_users"  required="">
                     </div>
                     <div class="col col-lg-2">
                     <button class="btn btn-primary form-control" type="submit">Simpan</button>
@@ -107,27 +105,30 @@
             {{$i=1}}
               <th width="100">No</th>
               <th width="100">id</th>
-              <th>Aktivitas</th>
-              <th width="100">Reaksi</th>
-              <th width="100">Mentee</th>
+              <th >Foto</th>
+              <th >Deskripsi</th>
+              <th width="100">tgl</th>
+              <th width="100">Id User</th>
               <th width="140">Aksi</th>
+
             </tr>
   </thead>
 
 
             <tbody>
-  @foreach ($logbook as $log) 
+  @foreach ($tugass as $tugas) 
             <tr>
               <td>{{$i++}}</td>
-                <td>{{$log->id_log}}</td>
-                <td>{{$log->aktifitas}}</td>
-                <td>{{$log->emosi}}</td>
-                <td>{{$log->id_users}}</td>
+                <td>{{$tugas->id_tugas}}</td>
+                <td><img src="{{ asset($tugas->images) }}" class="img-thumbnail" style="width:200px" /></td>
+                <td>{{$tugas->deskripsi}}</td>
+                <td>{{$tugas->tgl}}</td>
+                <td>{{$tugas->id_users}}</td>
                 <td>
-                <button type="button" class="btn btn-primary btn-sm"  data-bs-toggle="modal" data-bs-target="#exampleModal{{$log->id_log}}">
+                <button type="button" class="btn btn-primary btn-sm"  data-bs-toggle="modal" data-bs-target="#exampleModal{{$tugas->id_tugas}}">
                 <i class="mdi mdi-table-edit"></i>
                 </button>
-                            <form action="{{ route('hapus', $log->id_log) }}" method="POST" style="display: inline-block;">
+                            <form action="{{ route('hapus', $tugas->id_tugas) }}" method="POST" style="display: inline-block;">
                             @csrf  
                             @method('delete')
                                 <button type="submit" class="btn btn-danger btn-sm">
@@ -143,38 +144,33 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal{{$log->id_log}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal{{$tugas->id_tugas}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Logbook</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Tugas</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
 
-          <form action="{{ route('update', $log->id_log) }}" method="post">
+          <form action="{{ route('update', $tugas->id_tugas) }}" method="post" enctype="multipart/form-data">
           @csrf  
           @method('PUT')
-          <div class="mb-3">
-          <input   type="hidden" class="form-control" name="id_log"  value="{{$log->id_log}}" >
-          <label for="aktifitas" class="form-label">Aktifitas</label>
-          <textarea type="text" class="form-control" value="{{$log->aktifitas}}" name="aktifitas" placeholder="Masukan Aktifitas" >{{$log->aktifitas}}</textarea>
+          <div class="mb-3" class="forms-group">
+          <label for="imanges" class="form-label">Foto</label>
+          <input type="file" class="form-control"  name="images" value="{{asset($tugas->images)}}">
           </div>
           <div class="mb-3">
-                <label for="jenis" class="form-label d"> Reaksi :</label>
-                <select name="emosi" id="jenis" class="form-control" >
-                <option selected value="{{$log->emosi}}">Pilih...</option>
-                <option value="Senang Sekali">Senang Sekali</option>
-                <option  value="Biasa aja">Biasa aja</option>
-                <option  value="Sedih">Sedih</option>
-                <option  value="Marah">Marah</option>
-                </select>
+          <label for="deskripsi" class="form-label">Deskripsi</label>
+          <textarea type="text" class="form-control"  name="deskripsi" value="{{$tugas->deskripsi}}" > {{$tugas->deskripsi}}</textarea>
           </div>
           <div class="mb-3">
-          <label for="id_users" class="form-label">Id User</label>
-          <input type="text" class="form-control" value="{{$log->id_users}}" name="id_users" placeholder="Masukan Id Mahasiswa">
+          <label for="tgl" class="form-label">Tanggal</label>
+          <input type="date" class="form-control"  name="tgl" value="{{$tugas->tgl}}">
           </div>
-
+          <div class="mb-3">
+          <label for="tgl" class="form-label">ID User</label>
+          <input type="text" class="form-control"  name="id_users" value="{{$tugas->id_users}}  ">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>

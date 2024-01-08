@@ -86,7 +86,7 @@ class Dashboardcontroller extends Controller
         session()->start();
         $mobil = DB::table('mobil')->where('id', $id)->delete();
         $mobil = DB::table('mobil')->get();
-        session()->flash('success', 'Your record has been deleted ☑️');
+        session()->flash('success', 'Data berhasil di hapus ☑️');
         return view('admin.dashboard', ['mobil' => $mobil]);
         
     }
