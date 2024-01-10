@@ -70,7 +70,7 @@
                       {{ session('success') }}
                   </div>
                   @endif
-                  <form action="{{ route('simpan') }}" method="POST" enctype="multipart/form-data">
+                  <form action="{{ route('simpan_tugas') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3" class="forms-group">
                     <label for="images" class="form-label">Foto</label>
@@ -128,7 +128,7 @@
                 <button type="button" class="btn btn-primary btn-sm"  data-bs-toggle="modal" data-bs-target="#exampleModal{{$tugas->id_tugas}}">
                 <i class="mdi mdi-table-edit"></i>
                 </button>
-                            <form action="{{ route('hapus', $tugas->id_tugas) }}" method="POST" style="display: inline-block;">
+                            <form action="{{ route('hapus_tugas', $tugas->id_tugas) }}" method="POST" style="display: inline-block;">
                             @csrf  
                             @method('delete')
                                 <button type="submit" class="btn btn-danger btn-sm">
@@ -153,7 +153,7 @@
           </div>
           <div class="modal-body">
 
-          <form action="{{ route('update', $tugas->id_tugas) }}" method="post" enctype="multipart/form-data">
+          <form action="{{ route('update_tugas', $tugas->id_tugas) }}" method="post" enctype="multipart/form-data">
           @csrf  
           @method('PUT')
           <div class="mb-3" class="forms-group">

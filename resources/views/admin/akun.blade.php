@@ -70,7 +70,7 @@
                       {{ session('success') }}
                   </div>
                   @endif
-                  <form action="{{ route('simpan') }}" method="POST" >
+                  <form action="{{ route('simpan_akun') }}" method="POST" >
                     @csrf
                     <div class="mb-3">
                     <label for="name" class="form-label">Nama</label>
@@ -94,8 +94,8 @@
                         </select>
                   </div>
                   <div class="mb-3">
-                        <label for="rolename" class="form-label d"> Batch:</label>
-                        <select name="rolename" id="rolename" class="form-control" required="">
+                        <label for="batch" class="form-label d"> Batch:</label>
+                        <select name="batch" id="bacth" class="form-control" required="">
                         <option selected >Pilih...</option>
                         <option value="1">1</option>
                         <option  value="2">2</option>
@@ -157,18 +157,24 @@
 
 
             <tbody>
-          @foreach ($logbook as $log) 
+          @foreach ($user as $acc) 
             <tr>
               <td>{{$i++}}</td>
-                <td>{{$log->id_log}}</td>
-                <td>{{$log->aktifitas}}</td>
-                <td>{{$log->emosi}}</td>
-                <td>{{$log->id_users}}</td>
+                <td>{{$acc->id_user}}</td>
+                <td>{{$acc->name}}</td>
+                <td>{{$acc->username}}</td>
+                <td>{{$acc->password}}</td>
+                <td>{{$acc->rolename}}</td>
+                <td>{{$acc->batch}}</td>
+                <td>{{$acc->mentor}}</td>
+                <td>{{$acc->tgl_lahir}}</td>
+                <td>{{$acc->kota}}</td>
+                <td>{{$acc->univ}}</td>
                 <td>
-                <button type="button" class="btn btn-primary btn-sm"  data-bs-toggle="modal" data-bs-target="#exampleModal{{$log->id_log}}">
+                <button type="button" class="btn btn-primary btn-sm"  data-bs-toggle="modal" data-bs-target="#exampleModal{{$acc->id_user}}">
                 <i class="mdi mdi-table-edit"></i>
                 </button>
-                            <form action="{{ route('hapus', $log->id_log) }}" method="POST" style="display: inline-block;">
+                            <form action="{{ route('hapus_akun', $acc->id_user) }}" method="POST" style="display: inline-block;">
                             @csrf  
                             @method('delete')
                                 <button type="submit" class="btn btn-danger btn-sm">
@@ -184,44 +190,45 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal{{$log->id_log}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal{{$acc->id_user}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Logbook</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Akun</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
 
-          <form action="{{ route('update', $log->id_log) }}" method="post">
+          <form action="{{ route('update_akun', $acc->id_user) }}" method="post">
           @csrf  
           @method('PUT')
           <div class="mb-3">
-            <input   type="hidden" class="form-control" name="id_log"  value="{{$log->id_log}}" >                    <div class="mb-3">
+            <input   type="hidden" class="form-control" name="id_user"  value="{{$acc->id_user}}" >                    
+            <div class="mb-3">
             <label for="name" class="form-label">Nama</label>
-            <input type="text" class="form-control"  name="name" placeholder="Masukan Nama" required="">
+            <input type="text" class="form-control"  name="name" value="{{$acc->name}}" required="">
           </div>
           <div class="mb-3">
             <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control"  name="username" placeholder="Masukan Username" required="">
+            <input type="text" class="form-control"  name="username" value="{{$acc->username}}" required="">
           </div>
           <div class="mb-3">
             <label for="name" class="form-label">Password</label>
-            <input type="password" class="form-control"  name="password" placeholder="Masukan Password" required="">
+            <input type="password" class="form-control"  name="password"  required="">
           </div>
           <div class="mb-3">
             <label for="rolename" class="form-label d"> Rolename:</label>
             <select name="rolename" id="rolename" class="form-control" required="">
-              <option selected >Pilih...</option>
+              <option selected value="{{$acc->rolename}}" >{{$acc->rolename}}</option>
               <option value="mentee">Mentee</option>
               <option  value="mentor">Mentor</option>
               <option  value="admin">Admin</option>
             </select>
           </div>
           <div class="mb-3">
-          <label for="rolename" class="form-label d"> Batch:</label>
-          <select name="rolename" id="rolename" class="form-control" required="">
-          <option selected >Pilih...</option>
+          <label for="batch" class="form-label d"> Batch:</label>
+          <select name="batch" id="batch" class="form-control" required="">
+          <option selected  value="{{$acc->batch}}" >{{$acc->batch}}</option>
           <option value="1">1</option>
             <option  value="2">2</option>
             <option  value="3">3</option>
@@ -232,55 +239,28 @@
           </div>
           <div class="mb-3">
             <label for="mentor" class="form-label">Mentor</label>
-            <input type="text" class="form-control"  name="mentor" placeholder="Masukan Mentor" required="">
+            <input type="text" class="form-control"  value="{{$acc->mentor}}" name="mentor" required="">
           </div>
 
           <div class="mb-3">
             <label for="tgl_lahir" class="form-label">Tgl Lahir</label>
-            <input type="date" class="form-control"  name="tgl_lahir" required="">
+            <input type="date" class="form-control" value="{{$acc->tgl_lahir}}"  name="tgl_lahir" required="">
           </div>
           <div class="mb-3">
             <label for="kota" class="form-label">Kota</label>
-            <input type="text" class="form-control"  name="kota" placeholder="Masukan Kota" required="">
+            <input type="text" class="form-control"  value="{{$acc->kota}}" name="kota" placeholder="Masukan Kota" required="">
           </div>
           <div class="mb-3">
               <label for="univ" class="form-label">Universitas</label>
-              <input type="text" class="form-control"  name="univ" placeholder="Masukan Universitas" required="">
-          </div>
-
-
-
-
-
-        <label for="aktifitas" class="form-label">Aktifitas</label>
-        <textarea type="text" class="form-control" value="{{$log->aktifitas}}" name="aktifitas" placeholder="Masukan Aktifitas" >{{$log->aktifitas}}</textarea>
-        </div>
-        <div class="mb-3">
-          <label for="jenis" class="form-label d"> Reaksi :</label>
-          <select name="emosi" id="jenis" class="form-control" >
-          <option selected value="{{$log->emosi}}">Pilih...</option>
-          <option value="Senang Sekali">Senang Sekali</option>
-          <option  value="Biasa aja">Biasa aja</option>
-          <option  value="Sedih">Sedih</option>
-          <option  value="Marah">Marah</option>
-        </select>
-          </div>
-          <div class="mb-3">
-          <label for="id_users" class="form-label">Id User</label>
-          <input type="text" class="form-control" value="{{$log->id_users}}" name="id_users" placeholder="Masukan Id Mahasiswa">
-          </div>
-
+              <input type="text" class="form-control"  value="{{$acc->univ}}" name="univ" placeholder="Masukan Universitas" required="">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
             <button type="submit" class="btn btn-primary">Simpan</button>
-          </form>
+            </form>
 
-          </div>
-        </div>
-      </div>
-    </div>
-
+</div>
+</div>
 
     @endforeach
 

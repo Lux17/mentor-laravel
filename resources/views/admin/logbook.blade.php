@@ -70,7 +70,7 @@
                       {{ session('success') }}
                   </div>
                   @endif
-                  <form action="{{ route('simpan') }}" method="POST" >
+                  <form action="{{ route('simpan_logbook') }}" method="POST" >
                     @csrf
                     <div class="mb-3" class="forms-group">
                     <label for="aktifitas" class="form-label">Aktifitas</label>
@@ -127,7 +127,7 @@
                 <button type="button" class="btn btn-primary btn-sm"  data-bs-toggle="modal" data-bs-target="#exampleModal{{$log->id_log}}">
                 <i class="mdi mdi-table-edit"></i>
                 </button>
-                            <form action="{{ route('hapus', $log->id_log) }}" method="POST" style="display: inline-block;">
+                            <form action="{{ route('hapus_logbook', $log->id_log) }}" method="POST" style="display: inline-block;">
                             @csrf  
                             @method('delete')
                                 <button type="submit" class="btn btn-danger btn-sm">
@@ -152,7 +152,7 @@
           </div>
           <div class="modal-body">
 
-          <form action="{{ route('update', $log->id_log) }}" method="post">
+          <form action="{{ route('update_logbook', $log->id_log) }}" method="post">
           @csrf  
           @method('PUT')
           <div class="mb-3">

@@ -70,4 +70,18 @@ class Learningcontroller extends Controller
         
     }
 
+
+    public function index_user()
+    {
+        session()->start();
+        $learning = DB::table('learningpath')->get();
+        return view('user.learning', ['learning' => $learning]);
+    }
+    public function index_mentor()
+    {
+        session()->start();
+        $learning = DB::table('learningpath')->get();
+        return view('mentor.learning', ['learning' => $learning]);
+    }
+
 }

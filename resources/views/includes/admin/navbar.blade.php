@@ -3,7 +3,7 @@
       <div class="navbar-brand-wrapper d-flex justify-content-center">
         <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">  
           <a class="navbar-brand brand-logo" href="{{route('admin')}}"><img src="{{ asset('assets/images/infinite4.png') }} " alt="logo"/></a>
-          <a class="navbar-brand brand-logo-mini" href="{{route('admin')}}"><img src="{{ asset('assets/images/infinite2.jpg') }}" alt="logo"/></a>
+          <a class="navbar-brand brand-logo-mini" href="{{route('admin')}}"><img src="{{ asset('assets/images/infinite4.png') }}" alt="logo"/></a>
           <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
             <span class="mdi mdi-sort-variant"></span>
           </button>
@@ -13,10 +13,10 @@
 
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
-              <span class="nav-profile-name">Louis Barnett</span>
+              <span class="nav-profile-name">Admin</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
+              <a class="dropdown-item" href="{{route('logout')}}">
                 <i class="mdi mdi-logout text-primary"></i>
                 Logout
               </a>
