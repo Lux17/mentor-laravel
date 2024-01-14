@@ -19,7 +19,8 @@ class LogbookController extends Controller
 
         session()->start();
         $logbook = DB::table('logbook')->get();
-        return view('admin.logbook', ['logbook' => $logbook]);
+        $mente = DB::table('users')->where('rolename', 'mentee')->get();
+        return view('admin.logbook', ['logbook' => $logbook, 'mente' => $mente]);
     }
 
     
@@ -32,12 +33,13 @@ class LogbookController extends Controller
                 'id_log'=> request()->id_log,
                 'aktifitas'=> request()->aktifitas,
                 'emosi'=> request()->emosi,
-                'id_users'=> request()->id_users
+                'user'=> request()->user
 
             ]);
             $logbook = DB::table('logbook')->get();
             session()->flash('success', 'Data berhasil disimpan.');
-            return view('admin.logbook', ['logbook' => $logbook]);
+            $mente = DB::table('users')->where('rolename', 'mentee')->get();
+            return view('admin.logbook', ['logbook' => $logbook, 'mente' => $mente]);
     }
     
 
@@ -49,11 +51,12 @@ class LogbookController extends Controller
       'id_log'=> request()->id_log,
       'aktifitas'=> request()->aktifitas,
       'emosi'=> request()->emosi,
-      'id_users'=> request()->id_users
+      'user'=> request()->user
       ]);
       session()->flash('success', 'Data berhasil diupdate.');
       $logbook= DB::table('logbook')->get();
-      return view('admin.logbook', ['logbook' => $logbook]);
+      $mente = DB::table('users')->where('rolename', 'mentee')->get();
+      return view('admin.logbook', ['logbook' => $logbook, 'mente' => $mente]);
     }
 
       
@@ -66,7 +69,8 @@ class LogbookController extends Controller
         $logbook = DB::table('logbook')->where('id_log', $id_log)->delete();
         $logbook = DB::table('logbook')->get();
         session()->flash('success', 'Data berhasil di hapus ☑️');
-        return view('admin.logbook', ['logbook' => $logbook]);
+        $mente = DB::table('users')->where('rolename', 'mentee')->get();
+        return view('admin.logbook', ['logbook' => $logbook, 'mente' => $mente]);
         
     }
     
@@ -90,7 +94,7 @@ class LogbookController extends Controller
                 'id_log'=> request()->id_log,
                 'aktifitas'=> request()->aktifitas,
                 'emosi'=> request()->emosi,
-                'id_users'=> request()->id_users
+                'user'=> request()->user
 
             ]);
             $logbook = DB::table('logbook')->get();
@@ -107,7 +111,7 @@ class LogbookController extends Controller
       'id_log'=> request()->id_log,
       'aktifitas'=> request()->aktifitas,
       'emosi'=> request()->emosi,
-      'id_users'=> request()->id_users
+      'user'=> request()->user
       ]);
       session()->flash('success', 'Data berhasil diupdate.');
       $logbook= DB::table('logbook')->get();
@@ -146,7 +150,7 @@ class LogbookController extends Controller
                 'id_log'=> request()->id_log,
                 'aktifitas'=> request()->aktifitas,
                 'emosi'=> request()->emosi,
-                'id_users'=> request()->id_users
+                'user'=> request()->user
 
             ]);
             $logbook = DB::table('logbook')->get();
@@ -163,7 +167,7 @@ class LogbookController extends Controller
       'id_log'=> request()->id_log,
       'aktifitas'=> request()->aktifitas,
       'emosi'=> request()->emosi,
-      'id_users'=> request()->id_users
+      'user'=> request()->user
       ]);
       session()->flash('success', 'Data berhasil diupdate.');
       $logbook= DB::table('logbook')->get();

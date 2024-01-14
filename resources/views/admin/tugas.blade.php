@@ -85,9 +85,14 @@
                     <input type="date" class="form-control"  name="tgl" value="{{ date('Y-m-d') }}" >
                     </div>
                     <div class="mb-3">
-                    <label for="tgl" class="form-label">ID User</label>
-                    <input type="text" class="form-control"  name="id_users"  required="">
-                    </div>
+                    <label for="mentee" class="form-label d"> Mentee :</label>
+                    <select id="mentee" class="form-control" name="user" required="">
+                    <option selected value="">Pilih...</option>
+                    @foreach ($mente as $mentee) 
+                    <option value="{{$mentee->name}}">{{$mentee->name}}</option>
+                    @endforeach
+                  </select>
+                  </div>
                     <div class="col col-lg-2">
                     <button class="btn btn-primary form-control" type="submit">Simpan</button>
                     </div>
@@ -108,8 +113,8 @@
               <th >Foto</th>
               <th >Deskripsi</th>
               <th width="100">tgl</th>
-              <th width="100">Id User</th>
-              <th width="140">Aksi</th>
+              <th width="100">Mentee</th>
+              <th width="200">Aksi</th>
 
             </tr>
   </thead>
@@ -123,8 +128,12 @@
                 <td><img src="{{ asset($tugas->images) }}" class="img-thumbnail" style="width:200px" /></td>
                 <td>{{$tugas->deskripsi}}</td>
                 <td>{{$tugas->tgl}}</td>
-                <td>{{$tugas->id_users}}</td>
+                <td>{{$tugas->user}}</td>
                 <td>
+           
+                <button type="button" class="btn btn-primary btn-sm"  data-bs-toggle="modal" data-bs-target="#ixampleModal{{$tugas->id_tugas}}">
+                <i class="mdi mdi-information-outline"></i>
+                </button>
                 <button type="button" class="btn btn-primary btn-sm"  data-bs-toggle="modal" data-bs-target="#exampleModal{{$tugas->id_tugas}}">
                 <i class="mdi mdi-table-edit"></i>
                 </button>
@@ -168,19 +177,72 @@
           <label for="tgl" class="form-label">Tanggal</label>
           <input type="date" class="form-control"  name="tgl" value="{{$tugas->tgl}}">
           </div>
+
           <div class="mb-3">
-          <label for="tgl" class="form-label">ID User</label>
-          <input type="text" class="form-control"  name="id_users" value="{{$tugas->id_users}}  ">
+          <label for="mentee" class="form-label d"> Mentee :</label>
+          <select id="mentee" class="form-control" name="user" required="">
+          <option selected value="">Pilih...</option>
+           @foreach ($mente as $mentee) 
+          <option value="{{$mentee->name}}">{{$mentee->name}}</option>
+          @endforeach
+          </select>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
             <button type="submit" class="btn btn-primary">Simpan</button>
+
+          </div>
+
           </form>
 
           </div>
         </div>
       </div>
     </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="ixampleModal{{$tugas->id_tugas}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="ModalLabel">Info Tugas</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+
+          <!-- <form action="" method="get"  enctype="multipart/form-data"> -->
+
+          <div class="mb-3" class="forms-group">
+          <label for="imanges" class="form-label">Foto</label>
+          <br>
+          <img style="width:200px; height:100px;" src="{{asset($tugas->images)}}" alt="">
+          </div>
+          <a type="submit" href="{{asset($tugas->images)}}"class="btn btn-primary">Lihat</a>
+          <div class="mb-3">
+          <label for="deskripsi" class="form-label">Deskripsi</label>
+          <textarea type="text" class="form-control"  name="deskripsi" value="{{$tugas->deskripsi}}" > {{$tugas->deskripsi}}</textarea>
+          </div>
+          <div class="mb-3">
+          <label for="tgl" class="form-label">Tanggal</label>
+          <input type="date" class="form-control"  name="tgl" value="{{$tugas->tgl}}">
+          </div>
+          <div class="mb-3">
+          <label for="deskripsi" class="form-label">Mentee </label>
+          <input type="text" class="form-control"  name="user" value="{{$tugas->user}}" > </input>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          </div>
+
+
+          </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
 
 
     @endforeach

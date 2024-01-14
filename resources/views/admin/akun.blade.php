@@ -151,7 +151,7 @@
               <th width="100">Kota</th>
               <th width="100">Univ</th>
 
-              <th width="140">Aksi</th>
+              <th width="180">Aksi</th>
             </tr>
   </thead>
 

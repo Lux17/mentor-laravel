@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Session;
 use App\Models\Tugas;
+use Illuminate\Support\Facades\Storage;
+use Response;
+use File;
 
 
 
@@ -22,7 +25,8 @@ class TugasController extends Controller
     {
         session()->start();
         $tugas = DB::table('tugas')->get();
-        return view('admin.tugas', ['tugass' => $tugas]);
+        $mente = DB::table('users')->where('rolename', 'mentee')->get();
+        return view('admin.tugas', ['tugass' => $tugas, 'mente' => $mente]);
     }
 
     public function simpan(Request $request)
@@ -39,22 +43,24 @@ class TugasController extends Controller
             'images' => $request->images = $imagePath,
             'tgl' => $request->tgl,
             'deskripsi'=> $request->deskripsi,
-            'id_users' => $request->id_users,
+            'user' => $request->user,
             
         ]);
         $tugas = DB::table('tugas')->get();
         session()->flash('success', 'Data berhasil disimpan.');
-        return view('admin.tugas', ['tugass' => $tugas]);
+        $mente = DB::table('users')->where('rolename', 'mentee')->get();
+        return view('admin.tugas', ['tugass' => $tugas, 'mente' => $mente]);
         }else{
             DB::table('tugas')->insert([
                 'id_tugas' => $request->id_tugas,
                 'tgl' => $request->tgl,
                 'deskripsi'=> $request->deskripsi,
-                'id_users' => $request->id_users,
+                'user' => $request->user,
             ]);
             $tugas = DB::table('tugas')->get();
             session()->flash('success', 'Data berhasil disimpan.');
-            return view('admin.tugas', ['tugass' => $tugas]);
+            $mente = DB::table('users')->where('rolename', 'mentee')->get();
+            return view('admin.tugas', ['tugass' => $tugas, 'mente' => $mente]);
         }
     }
 
@@ -71,23 +77,25 @@ class TugasController extends Controller
           'images' => $request->images = $imagePath,
           'tgl' => $request->tgl,
           'deskripsi'=> $request->deskripsi,
-          'id_users' => $request->id_users,
+          'user' => $request->user,
           ]);
   
           $tugas = DB::table('tugas')->get();
           session()->flash('success', 'Data berhasil diupdate.');
+          $mente = DB::table('users')->where('rolename', 'mentee')->get();
           return view('admin.tugas', ['tugass' => $tugas]);
       }else {
         $preferences = DB::table('tugas')->where('id_tugas', $id_tugas)
       ->update([
         'tgl' => $request->tgl,
         'deskripsi'=> $request->deskripsi,
-        'id_users' => $request->id_users,
+        'user' => $request->user,
       ]);
 
       $tugas = DB::table('tugas')->get();
       session()->flash('success', 'Data berhasil diupdate.');
-      return view('admin.tugas', ['tugass' => $tugas]);
+      $mente = DB::table('users')->where('rolename', 'mentee')->get();
+      return view('admin.tugas', ['tugass' => $tugas, 'mente' => $mente]);
       }
       
     }
@@ -99,7 +107,8 @@ class TugasController extends Controller
         $tugas = DB::table('tugas')->where('id_tugas', $id_tugas)->delete();
         $tugas = DB::table('tugas')->get();
         session()->flash('success', 'Data berhasil di hapus ☑️');
-        return view('admin.tugas', ['tugass' => $tugas]);
+        $mente = DB::table('users')->where('rolename', 'mentee')->get();
+        return view('admin.tugas', ['tugass' => $tugas, 'mente' => $mente]);
         
     }
     
@@ -125,7 +134,7 @@ class TugasController extends Controller
             'images' => $request->images = $imagePath,
             'tgl' => $request->tgl,
             'deskripsi'=> $request->deskripsi,
-            'id_users' => $request->id_users,
+            'user' => $request->user,
             
         ]);
         $tugas = DB::table('tugas')->get();
@@ -136,7 +145,7 @@ class TugasController extends Controller
                 'id_tugas' => $request->id_tugas,
                 'tgl' => $request->tgl,
                 'deskripsi'=> $request->deskripsi,
-                'id_users' => $request->id_users,
+                'user' => $request->user,
             ]);
             $tugas = DB::table('tugas')->get();
             session()->flash('success', 'Data berhasil disimpan.');
@@ -157,7 +166,7 @@ class TugasController extends Controller
           'images' => $request->images = $imagePath,
           'tgl' => $request->tgl,
           'deskripsi'=> $request->deskripsi,
-          'id_users' => $request->id_users,
+          'user' => $request->user,
           ]);
   
           $tugas = DB::table('tugas')->get();
@@ -168,7 +177,7 @@ class TugasController extends Controller
       ->update([
         'tgl' => $request->tgl,
         'deskripsi'=> $request->deskripsi,
-        'id_users' => $request->id_users,
+        'user' => $request->user,
       ]);
 
       $tugas = DB::table('tugas')->get();
@@ -212,7 +221,7 @@ class TugasController extends Controller
             'images' => $request->images = $imagePath,
             'tgl' => $request->tgl,
             'deskripsi'=> $request->deskripsi,
-            'id_users' => $request->id_users,
+            'user' => $request->user,
             
         ]);
         $tugas = DB::table('tugas')->get();
@@ -223,7 +232,7 @@ class TugasController extends Controller
                 'id_tugas' => $request->id_tugas,
                 'tgl' => $request->tgl,
                 'deskripsi'=> $request->deskripsi,
-                'id_users' => $request->id_users,
+                'user' => $request->user,
             ]);
             $tugas = DB::table('tugas')->get();
             session()->flash('success', 'Data berhasil disimpan.');
@@ -244,7 +253,7 @@ class TugasController extends Controller
           'images' => $request->images = $imagePath,
           'tgl' => $request->tgl,
           'deskripsi'=> $request->deskripsi,
-          'id_users' => $request->id_users,
+          'user' => $request->user,
           ]);
   
           $tugas = DB::table('tugas')->get();
@@ -255,7 +264,7 @@ class TugasController extends Controller
       ->update([
         'tgl' => $request->tgl,
         'deskripsi'=> $request->deskripsi,
-        'id_users' => $request->id_users,
+        'user' => $request->user,
       ]);
 
       $tugas = DB::table('tugas')->get();
@@ -274,6 +283,14 @@ class TugasController extends Controller
         session()->flash('success', 'Data berhasil di hapus ☑️');
         return view('mentor.tugas', ['tugass' => $tugas]);
         
+    }
+
+    public function downloadfoto(Image $image)
+    {
+      $file=Storage::disk('public')->get($image);
+  
+      return (new Response($file, 200))
+            ->header('Content-Type', 'image/jpeg');
     }
 
 }

@@ -86,10 +86,15 @@
                         <option  value="Marah">Marah</option>
                         </select>
                   </div>
-                    <div class="mb-3">
-                    <label for="id_users" class="form-label">Id User</label>
-                    <input type="text" class="form-control"  name="id_users" placeholder="Masukan Id Mahasiswa" required="">
-                    </div>
+                  <div class="mb-3">
+                  <label for="mentee" class="form-label d"> Mentee :</label>
+                  <select id="mentee" class="form-control" name="user" required="">
+                  <option selected value="">Pilih...</option>
+                  @foreach ($mente as $mentee) 
+                  <option value="{{$mentee->name}}">{{$mentee->name}}</option>
+                  @endforeach
+                  </select>
+                  </div>
                     <div class="col col-lg-2">
                     <button class="btn btn-primary form-control" type="submit">Simpan</button>
                     </div>
@@ -110,7 +115,7 @@
               <th>Aktivitas</th>
               <th width="100">Reaksi</th>
               <th width="100">Mentee</th>
-              <th width="140">Aksi</th>
+              <th width="200">Aksi</th>
             </tr>
   </thead>
 
@@ -122,8 +127,11 @@
                 <td>{{$log->id_log}}</td>
                 <td>{{$log->aktifitas}}</td>
                 <td>{{$log->emosi}}</td>
-                <td>{{$log->id_users}}</td>
+                <td>{{$log->user}}</td>
                 <td>
+                <button type="button" class="btn btn-primary btn-sm"  data-bs-toggle="modal" data-bs-target="#ixampleModal{{$log->id_log}}">
+                <i class="mdi mdi-information-outline"></i>
+                </button>
                 <button type="button" class="btn btn-primary btn-sm"  data-bs-toggle="modal" data-bs-target="#exampleModal{{$log->id_log}}">
                 <i class="mdi mdi-table-edit"></i>
                 </button>
@@ -141,6 +149,42 @@
 
 <!-- Button trigger modal -->
 
+
+    <!-- Modal -->
+    <div class="modal fade" id="ixampleModal{{$log->id_log}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Info Logbook</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+
+          <form action="" method="get">
+          @csrf  
+          <div class="mb-3">
+          <input   type="hidden" class="form-control" name="id_log"  value="{{$log->id_log}}" >
+          <label for="aktifitas" class="form-label">Aktifitas</label>
+          <textarea type="text" class="form-control" value="{{$log->aktifitas}}" name="aktifitas" placeholder="Masukan Aktifitas" >{{$log->aktifitas}}</textarea>
+          </div>
+
+          <div class="mb-3">
+          <label for="deskripsi" class="form-label">Reaksi  </label>
+          <input type="text" class="form-control"  name="emosi" value="{{$log->emosi}}" > </input>
+          </div>
+          <div class="mb-3">
+          <label for="deskripsi" class="form-label">Mentee  </label>
+          <input type="text" class="form-control"  name="user" value="{{$mentee->name}}" > </input>
+          </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal{{$log->id_log}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -171,8 +215,13 @@
                 </select>
           </div>
           <div class="mb-3">
-          <label for="id_users" class="form-label">Id User</label>
-          <input type="text" class="form-control" value="{{$log->id_users}}" name="id_users" placeholder="Masukan Id Mahasiswa">
+          <label for="mentee" class="form-label d"> Mentee :</label>
+          <select id="mentee" class="form-control" name="user" required="">
+          <option selected value="">Pilih...</option>
+           @foreach ($mente as $mentee) 
+          <option value="{{$mentee->name}}">{{$mentee->name}}</option>
+          @endforeach
+          </select>
           </div>
 
           </div>
@@ -185,7 +234,6 @@
         </div>
       </div>
     </div>
-
 
     @endforeach
 

@@ -16,4 +16,5 @@ class Mobil extends Model
         'image',
     ];
 
+
 }

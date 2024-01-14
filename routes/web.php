@@ -23,6 +23,8 @@ Route::get('/hash', 'App\Http\Controllers\HashController@hash');
 
 Route::get('', 'App\Http\Controllers\IndexController@index');
 
+Route::get('bot', 'App\Http\Controllers\IndexController@bot')->name('bot');
+
 
 Route::middleware(['auth', 'admin'])->group(function () {
 

@@ -11,3 +11,4 @@
 
   <!-- Template Main JS File -->
   <script src="{{ asset('landing/assets/js/main.js') }}"></script>
+
